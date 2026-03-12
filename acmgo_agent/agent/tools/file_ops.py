@@ -1,5 +1,5 @@
 """
-File operation tools.
+文件操作工具。
 """
 import os
 from typing import Dict, Any
@@ -7,7 +7,7 @@ from .base import Tool
 
 
 class SaveFileTool(Tool):
-    """Tool for saving files to the working directory."""
+    """用于保存文件到工作目录的工具。"""
 
     def __init__(self, work_dir: str):
         super().__init__(
@@ -30,13 +30,13 @@ class SaveFileTool(Tool):
         self.work_dir = os.path.abspath(work_dir)
 
     def execute(self, filename: str, content: str) -> Dict[str, Any]:
-        """Save a file to the working directory."""
+        """保存文件到工作目录。"""
         # Validate parameters
         error = self.validate_parameters({"filename": filename, "content": content})
         if error:
             return {"success": False, "error": error}
 
-        # Build the full path
+        # Build full path
         path = os.path.join(self.work_dir, filename)
 
         # Create parent directories if needed
@@ -48,7 +48,7 @@ class SaveFileTool(Tool):
         file_exists = os.path.exists(path)
 
         try:
-            # Write the file
+            # Write file
             with open(path, "w", encoding="utf-8") as f:
                 f.write(content)
 
@@ -62,13 +62,13 @@ class SaveFileTool(Tool):
         except IOError as e:
             return {
                 "success": False,
-                "error": f"Failed to write file {filename}: {str(e)}",
+                "error": f"无法写入文件 {filename}: {str(e)}",
                 "path": path,
             }
 
 
 class ReadFileTool(Tool):
-    """Tool for reading files from the working directory."""
+    """用于从工作目录读取文件的工具。"""
 
     def __init__(self, work_dir: str):
         super().__init__(
@@ -87,25 +87,25 @@ class ReadFileTool(Tool):
         self.work_dir = os.path.abspath(work_dir)
 
     def execute(self, filename: str) -> Dict[str, Any]:
-        """Read a file from the working directory."""
+        """从工作目录读取文件。"""
         # Validate parameters
         error = self.validate_parameters({"filename": filename})
         if error:
             return {"success": False, "error": error}
 
-        # Build the full path
+        # Build full path
         path = os.path.join(self.work_dir, filename)
 
         # Check if file exists
         if not os.path.exists(path):
             return {
                 "success": False,
-                "error": f"File not found: {filename}",
+                "error": f"找不到文件: {filename}",
                 "path": path,
             }
 
         try:
-            # Read the file
+            # Read file
             with open(path, "r", encoding="utf-8") as f:
                 content = f.read()
 
@@ -119,13 +119,13 @@ class ReadFileTool(Tool):
         except IOError as e:
             return {
                 "success": False,
-                "error": f"Failed to read file {filename}: {str(e)}",
+                "error": f"无法读取文件 {filename}: {str(e)}",
                 "path": path,
             }
 
 
 class ListFilesTool(Tool):
-    """Tool for listing files in the working directory."""
+    """用于列出工作目录中文件的工具。"""
 
     def __init__(self, work_dir: str):
         super().__init__(
@@ -143,8 +143,8 @@ class ListFilesTool(Tool):
         self.work_dir = os.path.abspath(work_dir)
 
     def execute(self, directory: str = "") -> Dict[str, Any]:
-        """List files in a directory."""
-        # Build the full path
+        """列出目录中的文件。"""
+        # Build full path
         if directory:
             path = os.path.join(self.work_dir, directory)
         else:
@@ -154,19 +154,19 @@ class ListFilesTool(Tool):
         if not os.path.exists(path):
             return {
                 "success": False,
-                "error": f"Directory not found: {directory}",
+                "error": f"找不到目录: {directory}",
                 "path": path,
             }
 
         if not os.path.isdir(path):
             return {
                 "success": False,
-                "error": f"Not a directory: {directory}",
+                "error": f"不是目录: {directory}",
                 "path": path,
             }
 
         try:
-            # List the directory
+            # List directory
             entries = []
             for entry in os.listdir(path):
                 full_path = os.path.join(path, entry)
@@ -188,6 +188,6 @@ class ListFilesTool(Tool):
         except OSError as e:
             return {
                 "success": False,
-                "error": f"Failed to list directory {directory}: {str(e)}",
+                "error": f"无法列出目录 {directory}: {str(e)}",
                 "path": path,
             }

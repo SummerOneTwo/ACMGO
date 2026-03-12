@@ -1,12 +1,12 @@
 """
-Tool implementations for the agent.
+Agent 的工具实现。
 
-This package provides various tools for:
-- File operations (save, read, list)
-- C++ compilation
-- Stress testing
-- Test data generation
-- Polygon format packing
+此包提供各种工具：
+- 文件操作（保存、读取、列出）
+- C++ 编译
+- 压力测试
+- 测试数据生成
+- Polygon 格式打包
 """
 
 from .base import Tool

@@ -1,5 +1,5 @@
 """
-Stress test tool for comparing sol.cpp and brute.cpp outputs.
+用于比较 sol.cpp 和 brute.cpp 输出的压力测试工具。
 """
 import os
 import sys
@@ -11,7 +11,7 @@ from .compiler import CompileAllTool
 
 
 class RunStressTestTool(Tool):
-    """Tool for running stress tests to compare sol.cpp and brute.cpp outputs."""
+    """用于运行对拍测试以比较 sol.cpp 和 brute.cpp 输出的工具。"""
 
     def __init__(
         self,
@@ -229,7 +229,7 @@ class RunStressTestTool(Tool):
 
 
 class QuickStressTestTool(Tool):
-    """Tool for running a quick stress test (fewer rounds) for faster iteration."""
+    """用于运行快速对拍测试（较少轮次）以加快迭代的工具。"""
 
     def __init__(self, work_dir: str):
         super().__init__(

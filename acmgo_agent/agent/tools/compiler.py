@@ -1,5 +1,5 @@
 """
-C++ compiler tool.
+C++ 编译器工具。
 """
 import os
 import sys
@@ -9,7 +9,7 @@ from .base import Tool
 
 
 class CompileCppTool(Tool):
-    """Tool for compiling C++ source files."""
+    """用于编译 C++ 源文件的工具。"""
 
     def __init__(self, work_dir: str, compiler: str = "g++"):
         super().__init__(
@@ -94,7 +94,7 @@ class CompileCppTool(Tool):
                 "success": True,
                 "exe_path": exe_path,
                 "source_file": source_file,
-                "message": f"编译成功: {source_file} -> {base_name{exe_ext}}",
+                "message": f"编译成功: {source_file} -> {base_name}{exe_ext}",
             }
 
         except subprocess.TimeoutExpired:
@@ -111,7 +111,7 @@ class CompileCppTool(Tool):
 
 
 class CompileAllTool(Tool):
-    """Tool for compiling all required C++ source files."""
+    """用于编译所有必需的 C++ 源文件的工具。"""
 
     def __init__(self, work_dir: str, compiler: str = "g++"):
         super().__init__(

@@ -1,14 +1,15 @@
 [project]
 name = "acmgo-agent"
 version = "0.1.0"
-description = "AI-assisted competitive programming problem setter for ACMGO"
+description = "AI 辅助的竞赛编程出题工具，用于 ACMGO"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "anthropic>=0.45.0",
+    "litellm>=1.0.0",
 ]
 
 [project.optional-dependencies]
+anthropic = ["anthropic>=0.45.0"]
 openai = ["openai>=1.0.0"]
 dev = ["pytest>=8.0.0", "black>=24.0.0", "isort>=5.0.0", "mypy>=1.0.0"]
 

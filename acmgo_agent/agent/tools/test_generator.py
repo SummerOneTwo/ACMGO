@@ -1,5 +1,5 @@
 """
-Test data generation tool.
+测试数据生成工具。
 """
 import os
 import sys
@@ -11,7 +11,7 @@ from .compiler import CompileCppTool
 
 
 class GenerateTestsTool(Tool):
-    """Tool for generating final test data (01.in ~ 20.in)."""
+    """用于生成最终测试数据（01.in ~ 20.in）的工具。"""
 
     def __init__(
         self,

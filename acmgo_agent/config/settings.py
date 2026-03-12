@@ -20,11 +20,13 @@ class AgentSettings:
     """
 
     # LLM Provider Settings
-    provider: str = field(default_factory=lambda: os.getenv("ACMGO_PROVIDER", "anthropic"))
+    provider: str = field(default_factory=lambda: os.getenv("ACMGO_PROVIDER", "litellm"))
     api_key: Optional[str] = field(
-        default_factory=lambda: os.getenv("ANTHROPIC_API_KEY") or os.getenv("OPENAI_API_KEY")
+        default_factory=lambda: os.getenv("LITELLM_API_KEY") or
+        os.getenv("ANTHROPIC_API_KEY") or
+        os.getenv("OPENAI_API_KEY")
     )
-    model: str = field(default_factory=lambda: os.getenv("ACMGO_MODEL", "claude-opus-4-6"))
+    model: str = field(default_factory=lambda: os.getenv("ACMGO_MODEL", "anthropic/claude-opus-4-6"))
 
     # Agent Behavior
     max_retries: int = field(
@@ -55,7 +57,7 @@ class AgentSettings:
 
     # Working Directory
     work_dir: str = field(
-        default_factory=lambda: os.getenv("ACMGO_WORK_DIR", "./problems/new)problem")
+        default_factory=lambda: os.getenv("ACMGO_WORK_DIR", "./problems/new_problem")
     )
 
     # Compiler Settings
@@ -68,11 +70,6 @@ class AgentSettings:
 
     def __post_init__(self):
         """初始化后验证设置。"""
-        if self.provider not in ["anthropic", "openai"]:
-            raise ValueError(
-                f"无效的提供商: {self.provider}。必须是 'anthropic' 或 'openai'"
-            )
-
         if self.max_retries < 0:
             raise ValueError("max_retries 必须是非负数")
 
@@ -118,6 +115,30 @@ class AgentSettings:
 
     def validate_api_key(self) -> bool:
         """检查是否已配置 API 密钥。"""
+        # For litellm, check various environment variables based on model prefix
+        if self.provider == "litellm":
+            # Extract provider from model name
+            provider_from_model = self.model.split("/")[0].lower() if "/" in self.model else None
+
+            # Map provider names to env vars
+            env_vars = ["LITELLM_API_KEY"]
+            if provider_from_model == "anthropic":
+                env_vars.append("ANTHROPIC_API_KEY")
+            elif provider_from_model == "openai":
+                env_vars.append("OPENAI_API_KEY")
+            elif provider_from_model == "google":
+                env_vars.append("GOOGLE_API_KEY")
+            elif provider_from_model == "cohere":
+                env_vars.append("COHERE_API_KEY")
+
+            # Check if any of the relevant env vars are set
+            for env_var in env_vars:
+                key = os.getenv(env_var)
+                if key and len(key) > 0:
+                    return True
+            return False
+
+        # For other providers, check api_key directly
         if self.api_key is None:
             return False
 

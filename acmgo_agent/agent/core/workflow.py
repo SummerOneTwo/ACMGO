@@ -1,5 +1,5 @@
 """
-Workflow orchestrator for managing the 6-step problem setting process.
+用于管理 6 步出题流程的工作流编排器。
 """
 from typing import List, Dict, Any, Optional, Callable
 from .state import WorkflowStage, StageResult
@@ -7,14 +7,14 @@ from .state import WorkflowStage, StageResult
 
 class WorkflowOrchestrator:
     """
-    Orchestrates the 6-step problem setting workflow.
+    编排 6 步出题工作流。
 
-    This class provides a higher-level interface for managing
-    the workflow with hooks and stage transitions.
+    此类提供一个高级接口来管理工作流，
+    支持钩子和阶段转换。
     """
 
     def __init__(self):
-        """Initialize workflow orchestrator."""
+        """初始化工作流编排器。"""
         self.current_stage: Optional[WorkflowStage] = None
         self.completed_stages: List[WorkflowStage] = []
         self.stage_results: Dict[WorkflowStage, StageResult] = {}
@@ -30,7 +30,7 @@ class WorkflowOrchestrator:
     def register_before_stage_hook(
         self, stage: WorkflowStage, hook: Callable
     ) -> None:
-        """Register a hook to run before a specific stage."""
+        """注册在特定阶段之前运行的钩子。"""
         if stage not in self.before_stage_hooks:
             self.before_stage_hooks[stage] = []
         self.before_stage_hooks[stage].append(hook)
@@ -38,21 +38,21 @@ class WorkflowOrchestrator:
     def register_after_stage_hook(
         self, stage: WorkflowStage, hook: Callable
     ) -> None:
-        """Register a hook to run after a specific stage."""
+        """注册在特定阶段之后运行的钩子。"""
         if stage not in self.after_stage_hooks:
             self.after_stage_hooks[stage] = []
         self.after_stage_hooks[stage].append(hook)
 
     def register_before_any_stage_hook(self, hook: Callable) -> None:
-        """Register a hook to run before any stage."""
+        """注册在任何阶段之前运行的钩子。"""
         self.before_any_stage.append(hook)
 
     def register_after_any_stage_hook(self, hook: Callable) -> None:
-        """Register a hook to run after any stage."""
+        """注册在任何阶段之后运行的钩子。"""
         self.after_any_stage.append(hook)
 
     def get_stage_order(self) -> List[WorkflowStage]:
-        """Get the default order of stages."""
+        """获取阶段的默认顺序。"""
         return [
             WorkflowStage.STATEMENT,
             WorkflowStage.SOLUTIONS,
@@ -63,7 +63,7 @@ class WorkflowOrchestrator:
         ]
 
     def get_next_stage(self) -> Optional[WorkflowStage]:
-        """Get the next stage in the workflow."""
+        """获取工作流中的下一阶段。"""
         if self.current_stage is None:
             return self.get_stage_order()[0]
 
@@ -78,7 +78,7 @@ class WorkflowOrchestrator:
         return None
 
     def get_previous_stage(self) -> Optional[WorkflowStage]:
-        """Get the previous stage in the workflow."""
+        """获取工作流中的上一阶段。"""
         if self.current_stage is None:
             return None
 
@@ -93,15 +93,15 @@ class WorkflowOrchestrator:
         return None
 
     def get_remaining_stages(self) -> List[WorkflowStage]:
-        """Get list of stages not yet completed."""
+        """获取尚未完成的阶段列表。"""
         all_stages = self.get_stage_order()
         return [s for s in all_stages if s not in self.completed_stages]
 
     def can_proceed_to_stage(self, stage: WorkflowStage) -> bool:
         """
-        Check if a stage can be started.
+        检查阶段是否可以开始。
 
-        A stage can be started if all previous stages are completed.
+        阶段只有在所有前置阶段都完成后才能开始。
         """
         stages = self.get_stage_order()
         stage_index = stages.index(stage)
@@ -113,7 +113,7 @@ class WorkflowOrchestrator:
         return True
 
     def get_stage_dependencies(self, stage: WorkflowStage) -> List[WorkflowStage]:
-        """Get list of stages that must be completed before this stage."""
+        """获取在此阶段之前必须完成的阶段列表。"""
         stages = self.get_stage_order()
         stage_index = stages.index(stage)
         return stages[:stage_index]
@@ -121,7 +121,7 @@ class WorkflowOrchestrator:
     def execute_before_stage_hooks(
         self, stage: WorkflowStage, context: Dict[str, Any]
     ) -> None:
-        """Execute all before-stage hooks for the given stage."""
+        """执行给定阶段的所有前置钩子。"""
         # Global hooks
         for hook in self.before_any_stage:
             hook(stage.value, context)
@@ -134,7 +134,7 @@ class WorkflowOrchestrator:
     def execute_after_stage_hooks(
         self, stage: WorkflowStage, result: StageResult, context: Dict[str, Any]
     ) -> None:
-        """Execute all after-stage hooks for the given stage."""
+        """执行给定阶段的所有后置钩子。"""
         # Stage-specific hooks
         if stage in self.after_stage_hooks:
             for hook in self.after_stage_hooks[stage]:
@@ -145,24 +145,24 @@ class WorkflowOrchestrator:
             hook(stage.value, result.__dict__, context)
 
     def complete_stage(self, stage: WorkflowStage, result: StageResult) -> None:
-        """Mark a stage as complete with its result."""
+        """将阶段标记为完成并记录结果。"""
         self.stage_results[stage] = result
         if stage not in self.completed_stages:
             self.completed_stages.append(stage)
         self.current_stage = stage
 
     def is_complete(self) -> bool:
-        """Check if all stages are completed."""
+        """检查所有阶段是否都已完成。"""
         return len(self.completed_stages) == len(self.get_stage_order())
 
     def reset(self) -> None:
-        """Reset the workflow to initial state."""
+        """将工作流重置为初始状态。"""
         self.current_stage = None
         self.completed_stages = []
         self.stage_results = {}
 
     def get_summary(self) -> Dict[str, Any]:
-        """Get a summary of the workflow status."""
+        """获取工作流状态的摘要。"""
         all_stages = self.get_stage_order()
         completed_count = len(self.completed_stages)
 

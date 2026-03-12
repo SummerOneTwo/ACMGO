@@ -1,15 +1,27 @@
 """
-LLM Provider implementations.
+LLM 提供商实现。
 
-This package provides support for multiple LLM providers:
-- Anthropic: Uses the Anthropic SDK for Claude models
-- OpenAI: Uses the OpenAI SDK for GPT models
+此包支持多个 LLM 提供商：
+- Anthropic: 使用 Anthropic SDK 的 Claude 模型
+- OpenAI: 使用 OpenAI SDK 的 GPT 模型
+- LiteLLM: 使用 litellm.completion() 支持 100+ 提供商
 """
 
 from .base import LLMProvider, Message, ToolCall, ToolDefinition, Tool
-from .anthropic import AnthropicProvider
-from .openai import OpenAIProvider
 from .factory import create_provider, list_providers
+
+# Lazy imports for optional providers
+def __getattr__(name: str):
+    if name == "AnthropicProvider":
+        from .anthropic import AnthropicProvider
+        return AnthropicProvider
+    elif name == "OpenAIProvider":
+        from .openai import OpenAIProvider
+        return OpenAIProvider
+    elif name == "LiteLLMProvider":
+        from .litellm import LiteLLMProvider
+        return LiteLLMProvider
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 __all__ = [
     "LLMProvider",
@@ -19,6 +31,7 @@ __all__ = [
     "Tool",
     "AnthropicProvider",
     "OpenAIProvider",
+    "LiteLLMProvider",
     "create_provider",
     "list_providers",
 ]

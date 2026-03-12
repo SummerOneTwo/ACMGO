@@ -1,5 +1,5 @@
 """
-Polygon format packing tool.
+Polygon 格式打包工具。
 """
 import os
 import shutil
@@ -9,7 +9,7 @@ from .base import Tool
 
 
 class PackPolygonTool(Tool):
-    """Tool for packing development files into Polygon format."""
+    """用于将开发阶段文件打包成 Polygon 格式的工具。"""
 
     def __init__(self, work_dir: str):
         super().__init__(
@@ -166,7 +166,7 @@ class PackPolygonTool(Tool):
 
 
 class SetupDevTool(Tool):
-    """Tool for setting up development environment from Polygon format."""
+    """用于从 Polygon 格式设置开发环境的工具。"""
 
     def __init__(self, work_dir: str):
         super().__init__(

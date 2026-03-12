@@ -45,7 +45,6 @@ def cleanup():
         try:
             shutil.rmtree("tests")
             print("已删除: tests 目录")
-")
             removed_count += 1
         except Exception as e:
             print(f"删除 tests 目录失败: {e}")

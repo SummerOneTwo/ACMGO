@@ -28,7 +28,7 @@ pip install -e acmgo_agent
 
 ```bash
 # 设置 API 密钥
-export ANTHROPIC_API_KEY="your-api-key-here"
+钥export ANTHROPIC_API_KEY="your-api-key-here"
 
 # 运行 Agent
 python -m acmgo_agent.cli.main "动态规划问题"
@@ -48,7 +48,7 @@ python -m acmgo_agent.cli.main <题目描述>
 python -m acmgo_agent.cli.main <描述> [选项]
 
 选项:
-  --provider {anthropic,openai}  LLM 提供商（默认：anthropic）
+  --provider {anthropic,openai,litellm}  LLM 提供商（默认：litellm）
   --model MODEL                 模型名称
   --api-key KEY                API 密钥
   --work-dir DIR               工作目录
@@ -82,9 +82,9 @@ Agent 可以通过环境变量进行配置：
 | 变量 | 描述 | 默认值 |
 |----------|-------------|---------|
 | `ANTHROPIC_API_KEY` | Anthropic API 密钥 | - |
-| `OPENAI_API_KEY` | OpenAI API 密钥 | - |
-| `ACMGO_PROVIDER` | LLM 提供商 | `anthropic` |
-| `ACMGO_MODEL` | 模型名称 | `claude-opus-4-6` |
+| `OPENAI_API_KEY`` | OpenAI API 密钥 | - |
+| `ACMGO_PROVIDER` | LLM 提供商 | `litellm` |
+| `ACMGO_MODEL` | 模型名称 | `anthropic/claude-opus-4-6` |
 | `ACMGO_WORK_DIR` | 工作目录 | `./problems/new_problem` |
 | `ACMGO_MAX_RETRIES` | 自愈最大重试次数 | `3` |
 | `ACMGO_AUTO_PROGRESS` | 自动进入下一步 | `false` |
@@ -156,7 +156,7 @@ agent = ProblemSetterAgent(provider, work_dir)
 agent.set_custom_system_prompt("额外指令...")
 ```
 
-### 工作流程钩子
+### 工作流钩子
 
 ```python
 def before_stage(stage: str, context: dict):

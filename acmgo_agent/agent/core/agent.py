@@ -392,8 +392,6 @@ class ProblemSetterAgent:
                     )
                 )
 
- )
-
         return definitions
 
     def _log(self, message: str) -> None:

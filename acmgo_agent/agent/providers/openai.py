@@ -18,7 +18,7 @@ class OpenAIProvider(LLMProvider):
             model: 要使用的模型名称（如 "gpt-4o", "gpt-4-turbo"）。
         """
         try:
-            import openaiari
+            import openai
         except ImportError:
             raise ImportError(
                 "OpenAI 提供商需要 'openai' 包。"
