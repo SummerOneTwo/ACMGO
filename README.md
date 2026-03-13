@@ -15,8 +15,9 @@
 ACMGO/
 ├── .agent/               # Agent 规则配置（用于 Claude Code 等工具）
 ├── .github/              # GitHub 社区模板与配置
-├── .env.example          # AI Agent 配置文件示例
 ├── acmgo_agent/          # AI Agent 实现（独立 Python 包）
+│   ├── .env.example       # AI Agent 配置文件示例
+│   └── .env             # AI Agent 配置文件（需自行创建）
 ├── docs/                 # 项目相关的设计文档与说明
 ├── problems/             # 整理好的各算法题目存放目录
 │   ├── tower_construction/
@@ -74,6 +75,7 @@ problem/
 
 ```bash
 # 1. 复制示例配置文件
+cd acmgo_agent
 cp .env.example .env
 
 # 2. 编辑 .env 文件，设置你的 API 密钥

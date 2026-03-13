@@ -15,10 +15,23 @@ from typing import Optional
 try:
     from dotenv import load_dotenv
 
-    # 加载项目根目录的 .env 文件
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
-    env_file = os.path.join(project_root, ".env")
-    load_dotenv(env_file)
+    # settings.py 位于 acmgo_agent/config/settings.py
+    # 向上两级到 acmgo_agent 目录，向上三级到项目根目录
+    config_dir = os.path.dirname(os.path.abspath(__file__))
+    acmgo_agent_dir = os.path.dirname(config_dir)
+    project_root = os.path.dirname(acmgo_agent_dir)
+
+    # 搜索顺序：当前目录 -> acmgo_agent 目录 -> 项目根目录
+    search_paths = [
+        ".env",  # 当前工作目录
+        os.path.join(acmgo_agent_dir, ".env"),  # acmgo_agent 目录
+        os.path.join(project_root, ".env"),  # 项目根目录（向后兼容）
+    ]
+
+    for path in search_paths:
+        if os.path.exists(path):
+            load_dotenv(path)
+            break
 except ImportError:
     # python-dotenv 未安装，忽略
     pass
@@ -191,9 +204,9 @@ def get_settings(
     if model is not None:
         settings.model = model
 
-    # 应用额外覆盖
+    # 应用额外覆盖（只在值不为 None 时覆盖）
     for key, value in kwargs.items():
-        if hasattr(settings, key):
+        if hasattr(settings, key) and value is not None:
             setattr(settings, key, value)
 
     return settings

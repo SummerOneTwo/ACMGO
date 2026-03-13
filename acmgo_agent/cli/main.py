@@ -16,9 +16,9 @@ if sys.platform == "win32":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
-from ..providers.factory import create_provider
-from ..core.agent import ProblemSetterAgent
-from ..config.settings import get_settings, print_settings
+from acmgo_agent.agent.providers.factory import create_provider
+from acmgo_agent.agent.core.agent import ProblemSetterAgent
+from acmgo_agent.config.settings import get_settings, print_settings
 
 
 def main():

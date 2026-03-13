@@ -70,6 +70,7 @@ class LiteLLMProvider(LLMProvider):
             "openai": "OPENAI_API_KEY",
             "google": "GOOGLE_API_KEY",
             "cohere": "COHERE_API_KEY",
+            "zai": "ZAI_API_KEY",
             "azure": "AZURE_API_KEY",
             "replicate": "REPLICATE_API_TOKEN",
             "huggingface": "HUGGING_FACE_API_KEY",

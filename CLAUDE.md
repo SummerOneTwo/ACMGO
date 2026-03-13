@@ -68,9 +68,10 @@ Agent 会自动完成 6 步工作流程：
 
 **方式一：使用 .env 文件（推荐）**
 
-在项目根目录创建 `.env` 文件：
+在 `acmgo_agent/` 目录创建 `.env` 文件：
 
 ```bash
+cd acmgo_agent
 cp .env.example .env
 # 编辑 .env 文件设置 API 密钥
 ```
