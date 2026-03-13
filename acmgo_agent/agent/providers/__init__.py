@@ -7,7 +7,7 @@ LLM 提供商实现。
 - LiteLLM: 使用 litellm.completion() 支持 100+ 提供商
 """
 
-from .base import LLMProvider, Message, ToolCall, ToolDefinition, Tool
+from .base import LLMProvider, Message, ToolCall, ToolDefinition
 from .factory import create_provider, list_providers
 
 # Lazy imports for optional providers
@@ -28,7 +28,6 @@ __all__ = [
     "Message",
     "ToolCall",
     "ToolDefinition",
-    "Tool",
     "AnthropicProvider",
     "OpenAIProvider",
     "LiteLLMProvider",

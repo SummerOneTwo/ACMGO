@@ -15,6 +15,7 @@
 ACMGO/
 ├── .agent/               # Agent 规则配置（用于 Claude Code 等工具）
 ├── .github/              # GitHub 社区模板与配置
+├── .env.example          # AI Agent 配置文件示例
 ├── acmgo_agent/          # AI Agent 实现（独立 Python 包）
 ├── docs/                 # 项目相关的设计文档与说明
 ├── problems/             # 整理好的各算法题目存放目录
@@ -67,14 +68,35 @@ problem/
 
 ## 使用 AI Agent
 
-项目提供了完整的 AI Agent 实现，支持自动生成和验证题目：
+项目提供了完整的 AI Agent 实现，支持自动生成和验证题目。
+
+### 配置（首次使用）
+
+```bash
+# 1. 复制示例配置文件
+cp .env.example .env
+
+# 2. 编辑 .env 文件，设置你的 API 密钥
+# 至少需要设置其中一个：
+#   - ANTHROPIC_API_KEY（用于 anthropic/ 模型）
+#   - OPENAI_API_KEY（用于 openai/ 模型）
+#   - 或其他提供商的 API 密钥
+```
+
+### 使用方法
 
 ```bash
 # 使用 Claude Code 时，只需输入题目描述
 # "出一个动态规划题目"
 
-# 或使用 CLI 模式（需先安装）
+# 或使用 CLI 模式
 python -m acmgo_agent.cli.main "最长上升子序列动态规划"
+
+# 指定提供商
+python -m acmgo_agent.cli.main --provider openai "图论问题"
+
+# 查看可用提供商
+python -m acmgo_agent.cli.main --list-providers
 ```
 
 详见 [acmgo_agent/README.md](acmgo_agent/README.md)。

@@ -126,7 +126,7 @@ int main() {
 
     return 0;
 }""",
-"""}
+}
 
 # Example validator
 EXAMPLE_VALIDATOR = """#include "testlib.h"

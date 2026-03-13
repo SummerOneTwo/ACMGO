@@ -2,13 +2,26 @@
 ACMGO Agent 的配置管理。
 
 设置可以通过以下方式提供：
-1. 环境变量
-2. 配置文件（可选）
-3. 构造函数参数
+1. .env 文件（自动加载）
+2. 环境变量
+3. 配置文件（可选）
+4. 构造函数参数
 """
 import os
 from dataclasses import dataclass, field
 from typing import Optional
+
+# 尝试加载 .env 文件
+try:
+    from dotenv import load_dotenv
+
+    # 加载项目根目录的 .env 文件
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
+    env_file = os.path.join(project_root, ".env")
+    load_dotenv(env_file)
+except ImportError:
+    # python-dotenv 未安装，忽略
+    pass
 
 
 @dataclass
